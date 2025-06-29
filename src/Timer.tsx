@@ -105,6 +105,9 @@ export default function Timer() {
 
   return (
     <div className="timer flex flex-col items-center justify-center p-4 bg-gray-100 rounded-lg shadow-md">
+      <h1 className="text-4xl font-bold text-center my-4 text-gray-800">
+        ⏰ WebTimer ⏰
+      </h1>
       <div className="adjust-inc flex space-x-2 mt-2 justify-evenly">
         <Button onClick={incMinutes}>+1 min</Button>
         <Button onClick={incSeconds}>+10 sec</Button>
