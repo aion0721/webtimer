@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
+body {
+  transition: background-color 0.5s ease;
+}
+
 body.time-up {
   background-color: #e45252;
-  transition: background-color 0.5s ease;
 }

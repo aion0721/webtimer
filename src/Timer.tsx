@@ -18,26 +18,34 @@ export default function Timer() {
 
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [running, setRunning] = useState(false);
+  const [finished, setFinished] = useState(false);
 
-  // Highlight when the timer finishes
+  // Highlight when the timer finishes while running
   useEffect(() => {
     const className = "time-up";
-    if (timeLeft === 0) {
+    if (finished) {
       document.body.classList.add(className);
     } else {
       document.body.classList.remove(className);
     }
     return () => document.body.classList.remove(className);
-  }, [timeLeft]);
+  }, [finished]);
+
+  useEffect(() => {
+    if (timeLeft > 0 && finished) {
+      setFinished(false);
+    }
+  }, [timeLeft, finished]);
 
   useEffect(() => {
     if (!running) return;
     if (timeLeft === 0) {
       setRunning(false);
+      setFinished(true);
       return;
     }
     const id = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => (prevTimeLeft > 0 ? prevTimeLeft - 1 : 0));
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(id);
   }, [running, timeLeft]);
@@ -69,6 +77,7 @@ export default function Timer() {
   const reset = () => {
     setRunning(false);
     setTimeLeft(INITIAL_TIME);
+    setFinished(false);
   };
 
   const incMinutes = () => {
