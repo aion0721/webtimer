@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-
 const INITIAL_TIME = 25 * 60; // 25 minutes
 
 function pad(value: number): string {
   return value.toString().padStart(2, "0");
 }
+
+import Button from "./Button";
+import { useEffect, useState } from "react";
 
 export default function Timer() {
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
@@ -88,53 +89,24 @@ export default function Timer() {
         />
       </div>
       <div className="adjust flex space-x-2 mt-2">
-        <button
-          onClick={incMinutes}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          +1 min
-        </button>
-        <button
-          onClick={decMinutes}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          -1 min
-        </button>
-        <button
-          onClick={incSeconds}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          +10 sec
-        </button>
-        <button
-          onClick={decSeconds}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          -10 sec
-        </button>
+        <Button onClick={incMinutes}>+1 min</Button>
+        <Button onClick={decMinutes}>-1 min</Button>
+        <Button onClick={incSeconds}>+10 sec</Button>
+        <Button onClick={decSeconds}>-10 sec</Button>
       </div>
       <div className="controls flex space-x-2 mt-2">
         {running ? (
-          <button
-            onClick={pause}
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
+          <Button onClick={pause} className="bg-gray-500 hover:bg-gray-700">
             Pause
-          </button>
+          </Button>
         ) : (
-          <button
-            onClick={start}
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
+          <Button onClick={start} className="bg-green-500 hover:bg-green-700">
             Start
-          </button>
+          </Button>
         )}
-        <button
-          onClick={reset}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
+        <Button onClick={reset} className="bg-red-500 hover:bg-red-700">
           Reset
-        </button>
+        </Button>
       </div>
     </div>
   );
