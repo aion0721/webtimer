@@ -6,7 +6,7 @@ import {
   decrementMinutes,
   incrementSeconds,
   decrementSeconds,
-} from '../src/timerUtils.js';
+} from '../src/timerUtils.ts';
 
 test('parseTimerParam parses mm:ss', () => {
   const input: string = '1:30';
