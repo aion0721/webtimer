@@ -1,4 +1,4 @@
-const INITIAL_TIME = 25 * 60; // 25 minutes
+const INITIAL_TIME = 10 * 60; // 25 minutes
 
 import Button from "./Button";
 import TextBox from "./TextBox";
@@ -8,9 +8,9 @@ export default function Timer() {
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [running, setRunning] = useState(false);
 
-  // Toggle background flashing when the timer hits zero
+  // Highlight when the timer finishes
   useEffect(() => {
-    const className = "flash-gradient";
+    const className = "time-up";
     if (timeLeft === 0) {
       document.body.classList.add(className);
     } else {
