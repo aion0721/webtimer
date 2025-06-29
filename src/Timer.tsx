@@ -1,19 +1,11 @@
 const INITIAL_TIME = 25 * 60; // 25 minutes
 
-function pad(value: number): string {
-  return value.toString().padStart(2, "0");
-}
-
 import Button from "./Button";
 import { useEffect, useState } from "react";
 
 export default function Timer() {
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [running, setRunning] = useState(false);
-  const [minutesInput, setMinutesInput] = useState(
-    Math.floor(INITIAL_TIME / 60)
-  );
-  const [secondsInput, setSecondsInput] = useState(INITIAL_TIME % 60);
 
   useEffect(() => {
     if (!running) return;
@@ -25,7 +17,7 @@ export default function Timer() {
       setTimeLeft((prevTimeLeft) => (prevTimeLeft > 0 ? prevTimeLeft - 1 : 0));
     }, 1000);
     return () => clearInterval(id);
-  }, [running, timeLeft, minutesInput, secondsInput]);
+  }, [running, timeLeft]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -34,13 +26,13 @@ export default function Timer() {
   const pause = () => setRunning(false);
 
   const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    setMinutesInput(isNaN(value) ? 0 : value);
-    setTimeLeft((isNaN(value) ? 0 : value) * 60 + secondsInput);
+    const value = parseInt(e.target.value, 10);
+    const sanitized = isNaN(value) ? 0 : value;
+    setTimeLeft(sanitized * 60 + seconds);
   };
 
   const handleSecondsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = parseInt(e.target.value);
+    let value = parseInt(e.target.value, 10);
     if (isNaN(value)) {
       value = 0;
     } else if (value < 0) {
@@ -48,39 +40,35 @@ export default function Timer() {
     } else if (value > 59) {
       value = 59;
     }
-    setSecondsInput(value);
-    setTimeLeft(minutesInput * 60 + value);
+    setTimeLeft(minutes * 60 + value);
   };
 
   const reset = () => {
     setRunning(false);
     setTimeLeft(INITIAL_TIME);
-    setMinutesInput(Math.floor(INITIAL_TIME / 60));
-    setSecondsInput(INITIAL_TIME % 60);
   };
 
   const incMinutes = () => {
-    setMinutesInput((m) => m + 1);
-    setTimeLeft((minutesInput + 1) * 60 + secondsInput);
+    setTimeLeft((t) => t + 60);
   };
   const decMinutes = () => {
-    setMinutesInput((m) => (m > 0 ? m - 1 : 0));
-    setTimeLeft((minutesInput > 0 ? minutesInput - 1 : 0) * 60 + secondsInput);
+    setTimeLeft((t) => (t >= 60 ? t - 60 : 0));
   };
   const incSeconds = () => {
-    setSecondsInput((s) => {
-      const newValue = s + 10;
-      return newValue > 59 ? 59 : newValue;
+    setTimeLeft((t) => {
+      const secs = t % 60;
+      const mins = Math.floor(t / 60);
+      const newSecs = secs + 10 > 59 ? 59 : secs + 10;
+      return mins * 60 + newSecs;
     });
-    setTimeLeft(
-      minutesInput * 60 + (secondsInput + 10 > 59 ? 59 : secondsInput + 10)
-    );
   };
   const decSeconds = () => {
-    setSecondsInput((s) => (s > 10 ? s - 10 : 0));
-    setTimeLeft(
-      minutesInput * 60 + (secondsInput > 10 ? secondsInput - 10 : 0)
-    );
+    setTimeLeft((t) => {
+      const secs = t % 60;
+      const mins = Math.floor(t / 60);
+      const newSecs = secs > 10 ? secs - 10 : 0;
+      return mins * 60 + newSecs;
+    });
   };
 
   return (
@@ -92,14 +80,14 @@ export default function Timer() {
       <div className="time flex items-center space-x-2 justify-evenly">
         <input
           type="number"
-          value={minutesInput}
+          value={minutes}
           onChange={handleMinutesChange}
           className="w-20 px-3 py-2 text-center rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         :
         <input
           type="number"
-          value={secondsInput}
+          value={seconds}
           onChange={handleSecondsChange}
           className="w-20 px-3 py-2 text-center rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
