@@ -1,11 +1,10 @@
-import './App.css'
-import Timer from './Timer'
+import "./App.css";
+import Timer from "./Timer";
 
 export default function App() {
   return (
-    <div className="app">
-      <h1>Web Timer</h1>
+    <div className="app flex items-center justify-center h-screen text-center">
       <Timer />
     </div>
-  )
+  );
 }
