@@ -6,7 +6,7 @@ import {
   decrementMinutes,
   incrementSeconds,
   decrementSeconds,
-} from "./timerUtils.js";
+} from "./timerUtils.ts";
 import { playSound } from "./sound.ts";
 
 const INITIAL_TIME = 10 * 60; // 25 minutes
