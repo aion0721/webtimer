@@ -71,33 +71,70 @@ export default function Timer() {
   };
 
   return (
-    <div className="timer">
-      <div className="time">
+    <div className="timer flex flex-col items-center justify-center p-4 bg-gray-100 rounded-lg shadow-md">
+      <div className="time flex items-center space-x-2">
         <input
           type="number"
           value={minutesInput}
           onChange={handleMinutesChange}
+          className="w-20 px-3 py-2 text-center rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         :
         <input
           type="number"
           value={secondsInput}
           onChange={handleSecondsChange}
+          className="w-20 px-3 py-2 text-center rounded border border-gray-300 focus:outline-none focus:ring-blue-500"
         />
       </div>
-      <div className="adjust">
-        <button onClick={incMinutes}>+1 min</button>
-        <button onClick={decMinutes}>-1 min</button>
-        <button onClick={incSeconds}>+10 sec</button>
-        <button onClick={decSeconds}>-10 sec</button>
+      <div className="adjust flex space-x-2 mt-2">
+        <button
+          onClick={incMinutes}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          +1 min
+        </button>
+        <button
+          onClick={decMinutes}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          -1 min
+        </button>
+        <button
+          onClick={incSeconds}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          +10 sec
+        </button>
+        <button
+          onClick={decSeconds}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          -10 sec
+        </button>
       </div>
-      <div className="controls">
+      <div className="controls flex space-x-2 mt-2">
         {running ? (
-          <button onClick={pause}>Pause</button>
+          <button
+            onClick={pause}
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Pause
+          </button>
         ) : (
-          <button onClick={start}>Start</button>
+          <button
+            onClick={start}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Start
+          </button>
         )}
-        <button onClick={reset}>Reset</button>
+        <button
+          onClick={reset}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Reset
+        </button>
       </div>
     </div>
   );
