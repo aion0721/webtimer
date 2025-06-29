@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@keyframes flash-gradient {
+  0%,
+  100% {
+    background: linear-gradient(45deg, blue, red);
+  }
+  50% {
+    background: linear-gradient(45deg, red, blue);
+  }
+}
+
+body.flash-gradient {
+  animation: flash-gradient 1s infinite;
+}
