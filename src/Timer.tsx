@@ -45,7 +45,7 @@ export default function Timer() {
     const className = "time-up";
     if (finished) {
       document.body.classList.add(className);
-      playSound();
+      void playSound();
       sendNotification();
     } else {
       document.body.classList.remove(className);
