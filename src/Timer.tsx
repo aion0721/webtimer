@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import {
+  parseTimerParam,
+  incrementMinutes,
+  decrementMinutes,
+  incrementSeconds,
+  decrementSeconds,
+} from "./timerUtils.js";
 
 const INITIAL_TIME = 10 * 60; // 25 minutes
 
@@ -10,11 +17,7 @@ export default function Timer() {
   const [searchParams] = useSearchParams();
   const timerParam = searchParams.get("timer");
 
-  let initialTime = INITIAL_TIME;
-  if (timerParam) {
-    const [minutes, seconds] = timerParam.split(":").map(Number);
-    initialTime = minutes * 60 + seconds;
-  }
+  const initialTime = parseTimerParam(timerParam, INITIAL_TIME);
 
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [running, setRunning] = useState(false);
@@ -81,26 +84,16 @@ export default function Timer() {
   };
 
   const incMinutes = () => {
-    setTimeLeft((t) => t + 60);
+    setTimeLeft((t) => incrementMinutes(t));
   };
   const decMinutes = () => {
-    setTimeLeft((t) => (t >= 60 ? t - 60 : 0));
+    setTimeLeft((t) => decrementMinutes(t));
   };
   const incSeconds = () => {
-    setTimeLeft((t) => {
-      const secs = t % 60;
-      const mins = Math.floor(t / 60);
-      const newSecs = secs + 10 > 59 ? 59 : secs + 10;
-      return mins * 60 + newSecs;
-    });
+    setTimeLeft((t) => incrementSeconds(t));
   };
   const decSeconds = () => {
-    setTimeLeft((t) => {
-      const secs = t % 60;
-      const mins = Math.floor(t / 60);
-      const newSecs = secs > 10 ? secs - 10 : 0;
-      return mins * 60 + newSecs;
-    });
+    setTimeLeft((t) => decrementSeconds(t));
   };
 
   return (
