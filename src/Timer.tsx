@@ -103,6 +103,12 @@ export default function Timer() {
     });
   };
 
+  const setPreset = (mins: number) => {
+    setRunning(false);
+    setFinished(false);
+    setTimeLeft(mins * 60);
+  };
+
   return (
     <div className="timer flex flex-col items-center justify-center p-4 bg-gray-100 rounded-lg shadow-md">
       <h1 className="text-4xl font-bold text-center my-4 text-gray-800">
@@ -133,6 +139,12 @@ export default function Timer() {
         <Button onClick={reset} className="bg-red-500 hover:bg-red-700">
           Reset
         </Button>
+      </div>
+      <div className="presets flex space-x-2 mt-2">
+        <Button onClick={() => setPreset(1)}>1 min</Button>
+        <Button onClick={() => setPreset(3)}>3 min</Button>
+        <Button onClick={() => setPreset(5)}>5 min</Button>
+        <Button onClick={() => setPreset(10)}>10 min</Button>
       </div>
     </div>
   );
