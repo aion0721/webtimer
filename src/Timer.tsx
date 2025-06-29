@@ -7,6 +7,17 @@ export default function Timer() {
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [running, setRunning] = useState(false);
 
+  // Toggle background flashing when the timer hits zero
+  useEffect(() => {
+    const className = "flash-gradient";
+    if (timeLeft === 0) {
+      document.body.classList.add(className);
+    } else {
+      document.body.classList.remove(className);
+    }
+    return () => document.body.classList.remove(className);
+  }, [timeLeft]);
+
   useEffect(() => {
     if (!running) return;
     if (timeLeft === 0) {
