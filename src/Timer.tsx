@@ -109,11 +109,11 @@ export default function Timer() {
         <Button onClick={incMinutes}>+1 min</Button>
         <Button onClick={incSeconds}>+10 sec</Button>
       </div>
-      <div className="time flex items-center space-x-2 justify-evenly">
+      <div className="time flex items-center justify-evenly">
         <TextBox value={minutes} onChange={handleMinutesChange} />:
         <TextBox value={seconds} onChange={handleSecondsChange} />
       </div>
-      <div className="adjust-dec flex space-x-2 mt-2 justify-evenly">
+      <div className="adjust-dec flex space-x-2 justify-evenly">
         <Button onClick={decMinutes}>-1 min</Button>
         <Button onClick={decSeconds}>-10 sec</Button>
       </div>
