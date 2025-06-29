@@ -7,6 +7,7 @@ import {
   incrementSeconds,
   decrementSeconds,
 } from "./timerUtils.js";
+import { playSound } from "./sound.ts";
 
 const INITIAL_TIME = 10 * 60; // 25 minutes
 
@@ -22,21 +23,6 @@ export default function Timer() {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [running, setRunning] = useState(false);
   const [finished, setFinished] = useState(false);
-
-  const playSound = () => {
-    try {
-      const ctx = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
-      const oscillator = ctx.createOscillator();
-      oscillator.type = "sine";
-      oscillator.frequency.value = 440;
-      oscillator.connect(ctx.destination);
-      oscillator.start();
-      oscillator.stop(ctx.currentTime + 1);
-    } catch (e) {
-      console.error("Audio error", e);
-    }
-  };
 
   const sendNotification = () => {
     if ("Notification" in window) {
