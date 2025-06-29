@@ -22,10 +22,10 @@ export default function Timer() {
       return;
     }
     const id = setInterval(() => {
-      setTimeLeft((t) => (t > 0 ? t - 1 : 0));
+      setTimeLeft((prevTimeLeft) => (prevTimeLeft > 0 ? prevTimeLeft - 1 : 0));
     }, 1000);
     return () => clearInterval(id);
-  }, [running, timeLeft]);
+  }, [running, timeLeft, minutesInput, secondsInput]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -40,9 +40,16 @@ export default function Timer() {
   };
 
   const handleSecondsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    setSecondsInput(isNaN(value) ? 0 : value);
-    setTimeLeft(minutesInput * 60 + (isNaN(value) ? 0 : value));
+    let value = parseInt(e.target.value);
+    if (isNaN(value)) {
+      value = 0;
+    } else if (value < 0) {
+      value = 0;
+    } else if (value > 59) {
+      value = 59;
+    }
+    setSecondsInput(value);
+    setTimeLeft(minutesInput * 60 + value);
   };
 
   const reset = () => {
@@ -61,8 +68,13 @@ export default function Timer() {
     setTimeLeft((minutesInput > 0 ? minutesInput - 1 : 0) * 60 + secondsInput);
   };
   const incSeconds = () => {
-    setSecondsInput((s) => s + 10);
-    setTimeLeft(minutesInput * 60 + secondsInput + 10);
+    setSecondsInput((s) => {
+      const newValue = s + 10;
+      return newValue > 59 ? 59 : newValue;
+    });
+    setTimeLeft(
+      minutesInput * 60 + (secondsInput + 10 > 59 ? 59 : secondsInput + 10)
+    );
   };
   const decSeconds = () => {
     setSecondsInput((s) => (s > 10 ? s - 10 : 0));
@@ -73,7 +85,11 @@ export default function Timer() {
 
   return (
     <div className="timer flex flex-col items-center justify-center p-4 bg-gray-100 rounded-lg shadow-md">
-      <div className="time flex items-center space-x-2">
+      <div className="adjust-inc flex space-x-2 mt-2 justify-evenly">
+        <Button onClick={incMinutes}>+1 min</Button>
+        <Button onClick={incSeconds}>+10 sec</Button>
+      </div>
+      <div className="time flex items-center space-x-2 justify-evenly">
         <input
           type="number"
           value={minutesInput}
@@ -85,13 +101,11 @@ export default function Timer() {
           type="number"
           value={secondsInput}
           onChange={handleSecondsChange}
-          className="w-20 px-3 py-2 text-center rounded border border-gray-300 focus:outline-none focus:ring-blue-500"
+          className="w-20 px-3 py-2 text-center rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <div className="adjust flex space-x-2 mt-2">
-        <Button onClick={incMinutes}>+1 min</Button>
+      <div className="adjust-dec flex space-x-2 mt-2 justify-evenly">
         <Button onClick={decMinutes}>-1 min</Button>
-        <Button onClick={incSeconds}>+10 sec</Button>
         <Button onClick={decSeconds}>-10 sec</Button>
       </div>
       <div className="controls flex space-x-2 mt-2">
