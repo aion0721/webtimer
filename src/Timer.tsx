@@ -1,11 +1,22 @@
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
 const INITIAL_TIME = 10 * 60; // 25 minutes
 
 import Button from "./Button";
 import TextBox from "./TextBox";
-import { useEffect, useState } from "react";
 
 export default function Timer() {
-  const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
+  const [searchParams] = useSearchParams();
+  const timerParam = searchParams.get("timer");
+
+  let initialTime = INITIAL_TIME;
+  if (timerParam) {
+    const [minutes, seconds] = timerParam.split(":").map(Number);
+    initialTime = minutes * 60 + seconds;
+  }
+
+  const [timeLeft, setTimeLeft] = useState(initialTime);
   const [running, setRunning] = useState(false);
 
   // Highlight when the timer finishes
