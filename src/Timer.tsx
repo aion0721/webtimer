@@ -13,6 +13,7 @@ const INITIAL_TIME = 10 * 60; // 25 minutes
 
 import Button from "./Button";
 import TextBox from "./TextBox";
+import Modal from "./Modal";
 
 export default function Timer() {
   const [searchParams] = useSearchParams();
@@ -23,6 +24,7 @@ export default function Timer() {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [running, setRunning] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   const sendNotification = () => {
     if ("Notification" in window) {
@@ -119,6 +121,9 @@ export default function Timer() {
     setTimeLeft(mins * 60);
   };
 
+  const openHelp = () => setShowHelp(true);
+  const closeHelp = () => setShowHelp(false);
+
   return (
     <div className="timer flex flex-col items-center justify-center p-4 bg-gray-100 rounded-lg shadow-md">
       <h1 className="text-4xl font-bold text-center my-4 text-gray-800">
@@ -156,6 +161,10 @@ export default function Timer() {
         <Button onClick={() => setPreset(5)}>5 min</Button>
         <Button onClick={() => setPreset(10)}>10 min</Button>
       </div>
+      <Button onClick={openHelp}>Help</Button>
+      <Modal show={showHelp} onClose={closeHelp}>
+        <p className="text-lg">URLの末尾に<code>?timer=10:00</code>のように指定できます。</p>
+      </Modal>
     </div>
   );
 }
