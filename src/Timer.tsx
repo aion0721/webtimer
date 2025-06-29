@@ -20,11 +20,42 @@ export default function Timer() {
   const [running, setRunning] = useState(false);
   const [finished, setFinished] = useState(false);
 
+  const playSound = () => {
+    try {
+      const ctx = new (window.AudioContext ||
+        (window as any).webkitAudioContext)();
+      const oscillator = ctx.createOscillator();
+      oscillator.type = "sine";
+      oscillator.frequency.value = 440;
+      oscillator.connect(ctx.destination);
+      oscillator.start();
+      oscillator.stop(ctx.currentTime + 1);
+    } catch (e) {
+      console.error("Audio error", e);
+    }
+  };
+
+  const sendNotification = () => {
+    if ("Notification" in window) {
+      if (Notification.permission === "granted") {
+        new Notification("Time is up!");
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then((perm) => {
+          if (perm === "granted") {
+            new Notification("Time is up!");
+          }
+        });
+      }
+    }
+  };
+
   // Highlight when the timer finishes while running
   useEffect(() => {
     const className = "time-up";
     if (finished) {
       document.body.classList.add(className);
+      playSound();
+      sendNotification();
     } else {
       document.body.classList.remove(className);
     }
