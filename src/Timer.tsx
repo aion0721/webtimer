@@ -1,6 +1,7 @@
 const INITIAL_TIME = 25 * 60; // 25 minutes
 
 import Button from "./Button";
+import TextBox from "./TextBox";
 import { useEffect, useState } from "react";
 
 export default function Timer() {
@@ -89,19 +90,8 @@ export default function Timer() {
         <Button onClick={incSeconds}>+10 sec</Button>
       </div>
       <div className="time flex items-center space-x-2 justify-evenly">
-        <input
-          type="number"
-          value={minutes}
-          onChange={handleMinutesChange}
-          className="w-20 px-3 py-2 text-center rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        :
-        <input
-          type="number"
-          value={seconds}
-          onChange={handleSecondsChange}
-          className="w-20 px-3 py-2 text-center rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <TextBox value={minutes} onChange={handleMinutesChange} />:
+        <TextBox value={seconds} onChange={handleSecondsChange} />
       </div>
       <div className="adjust-dec flex space-x-2 mt-2 justify-evenly">
         <Button onClick={decMinutes}>-1 min</Button>
